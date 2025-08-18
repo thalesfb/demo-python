@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 
-def check_bandit_vulnerabilities(report_file: str = "bandit-report.json") -> int:
+def check_bandit_vulnerabilities(report_file: str = "security-reports/bandit-report.json") -> int:
     """
     Verifica vulnerabilidades no relatório do Bandit.
 
