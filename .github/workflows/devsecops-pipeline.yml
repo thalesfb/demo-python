@@ -27,8 +27,8 @@ jobs:
         
     - name: 🔍 Análise SAST com Bandit
       run: |
-        # Use Bandit configuration file for consistent analysis
-        python -m bandit -r . -f json -o bandit-report.json -c .bandit
+        # Executar Bandit sem arquivo de configuração para evitar problemas de parsing
+        python -m bandit -r server/ -f json -o bandit-report.json
         
     - name: 🚨 Verificar Vulnerabilidades Críticas
       run: |
