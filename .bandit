@@ -1,15 +1,27 @@
-# Configuração do Bandit para análise de segurança
-# Arquivo .bandit
+[bandit]
+# Bandit configuration file
+# This file configures Bandit's security analysis behavior
 
-# Configurações de teste
-exclude_dirs: ['tests', 'venv', '.venv', '__pycache__', '.git']
-skips: ['B101']  # Pular avisos sobre assert statements em testes
+# Severity levels: LOW, MEDIUM, HIGH
+# Confidence levels: LOW, MEDIUM, HIGH
 
-# Configurações de relatório
+# Exclude specific tests if needed (commented out for now)
+# exclude: B101,B601
+
+# Set minimum severity level to report
+severity: LOW
+
+# Set minimum confidence level to report
+confidence: LOW
+
+# Skip specific directories (apenas ambiente virtual e cache)
+exclude_dirs: [.venv, venv, __pycache__]
+
+# Include specific files and directories
+include: [server/, Dockerfile, requirements.txt, Pipfile]
+
+# Output format
 output_format: json
-output_file: bandit-report.json
 
-# Configurações de severidade
-# MEDIUM e HIGH devem bloquear o pipeline (conforme especificação)
-severity: medium
-confidence: medium
+# Generate report
+output_file: bandit-report.json
