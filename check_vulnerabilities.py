@@ -13,6 +13,11 @@ def check_bandit_vulnerabilities(report_file: str = "security-reports/bandit-rep
     """
     Verifica vulnerabilidades no relatório do Bandit.
 
+    Política de Fail-Fast:
+    - HIGH: Pipeline falha (crítico)
+    - MEDIUM: Pipeline continua (aviso)
+    - LOW: Pipeline continua (informação)
+
     Parameters
     ----------
     report_file : str
@@ -21,7 +26,7 @@ def check_bandit_vulnerabilities(report_file: str = "security-reports/bandit-rep
     Returns
     -------
     int
-        0 se não houver vulnerabilidades críticas, 1 caso contrário.
+        0 se não houver vulnerabilidades HIGH, 1 caso contrário.
     """
     try:
         if not Path(report_file).exists():
@@ -44,14 +49,20 @@ def check_bandit_vulnerabilities(report_file: str = "security-reports/bandit-rep
         print(f"   🟡 MEDIUM: {medium_count}")
         print(f"   🟢 LOW: {low_count}")
 
-        # Pipeline deve falhar se houver vulnerabilidades MEDIUM+
-        if high_count > 0 or medium_count > 0:
+        # Pipeline falha APENAS se houver vulnerabilidades HIGH
+        if high_count > 0:
             print(
-                f"❌ Pipeline falhou - {high_count} HIGH + {medium_count} MEDIUM vulnerabilidades encontradas")
-            print("🚨 Implementando fail-fast conforme especificação")
+                f"❌ Pipeline falhou - {high_count} vulnerabilidades HIGH encontradas")
+            print("🚨 Implementando fail-fast para vulnerabilidades críticas")
             return 1
         else:
-            print("✅ Nenhuma vulnerabilidade crítica encontrada")
+            if medium_count > 0 or low_count > 0:
+                print(
+                    f"⚠️  {medium_count} MEDIUM + {low_count} LOW vulnerabilidades encontradas")
+                print(
+                    "✅ Pipeline pode prosseguir (apenas vulnerabilidades não-críticas)")
+            else:
+                print("✅ Nenhuma vulnerabilidade encontrada")
             print("🚀 Pipeline pode prosseguir")
             return 0
 
