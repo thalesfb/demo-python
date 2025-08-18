@@ -1,21 +1,26 @@
-# Script PowerShell para configurar ambiente virtual e instalar dependências
+<#
+ Script PowerShell para configurar ambiente virtual e instalar dependências
+ - Cria o venv em .venv
+ - Usa o Python do venv para atualizar pip e instalar dependências (sem depender de ativação)
+#>
+
 Write-Host "🔧 Configurando ambiente de desenvolvimento seguro..." -ForegroundColor Green
 
 # Criar ambiente virtual
 Write-Host "📦 Criando ambiente virtual..." -ForegroundColor Yellow
-python -m venv ../.venv
+python -m venv .venv
 
-# Ativar ambiente virtual
-Write-Host "🚀 Ativando ambiente virtual..." -ForegroundColor Yellow
-.\..\..venv\Scripts\Activate.ps1
+# Caminhos do Python dentro do venv
+$VenvPythonWin = ".venv\Scripts\python.exe"
+$ActivatePs1 = ".venv\Scripts\Activate.ps1"
 
-# Atualizar pip
+# Atualizar pip usando Python do venv
 Write-Host "⬆️ Atualizando pip..." -ForegroundColor Yellow
-python -m pip install --upgrade pip
+& $VenvPythonWin -m pip install --upgrade pip
 
 # Instalar dependências
 Write-Host "📚 Instalando dependências..." -ForegroundColor Yellow
-pip install -r ../requirements.txt
+& $VenvPythonWin -m pip install -r requirements.txt
 
 Write-Host "✅ Ambiente configurado com sucesso!" -ForegroundColor Green
-Write-Host "💡 Para ativar o ambiente: ..\.venv\Scripts\Activate.ps1" -ForegroundColor Cyan
+Write-Host "💡 Para ativar o ambiente (PowerShell): $ActivatePs1" -ForegroundColor Cyan
