@@ -1,10 +1,10 @@
+from server.routes import *
+from server.models import *
+from server.webapp import flaskapp, database, cursor, TEMPLATES
 import os
 import sys
 sys.path.append('.')
 
-from server.webapp import flaskapp, database, cursor, TEMPLATES
-from server.models import *
-from server.routes import *
 
 default_books = [
     ("The Hobbit", "JRR Tolkien", True),
@@ -14,7 +14,8 @@ default_books = [
     ("The Way of Kings", "Brandon Sanderson", False)
 ]
 
-env_token = "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"
+# Removido token hardcoded - deve ser configurado via variável de ambiente
+# env_token = os.environ.get('GITHUB_TOKEN', '')
 
 
 if __name__ == "__main__":
@@ -32,7 +33,8 @@ if __name__ == "__main__":
         except Exception as err:
             print(f'[!] Error Occurred: {err}')
 
-    flaskapp.run('0.0.0.0', debug=bool(os.environ.get('DEBUG', False)))
-    
+    # Corrigido: Usar localhost em vez de 0.0.0.0 para evitar binding para todas as interfaces
+    flaskapp.run('127.0.0.1', debug=bool(os.environ.get('DEBUG', False)))
+
     cursor.close()
     database.close()

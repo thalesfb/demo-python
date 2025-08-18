@@ -12,14 +12,18 @@ def index():
     read = bool(request.args.get('read'))
 
     if name:
+        # Corrigido: Usar query parametrizada para prevenir SQL Injection
         cursor.execute(
-            "SELECT * FROM books WHERE name LIKE '%" + name + "%'"
+            "SELECT * FROM books WHERE name LIKE ?",
+            (f'%{name}%',)
         )
         books = [Book(*row) for row in cursor]
 
     elif author:
+        # Corrigido: Usar query parametrizada para prevenir SQL Injection
         cursor.execute(
-            "SELECT * FROM books WHERE author LIKE '%" + author + "%'"
+            "SELECT * FROM books WHERE author LIKE ?",
+            (f'%{author}%',)
         )
         books = [Book(*row) for row in cursor]
 
