@@ -1,0 +1,15 @@
+# Configuração do Bandit para análise de segurança
+# Arquivo .bandit
+
+# Configurações de teste
+exclude_dirs: ['tests', 'venv', '.venv', '__pycache__', '.git']
+skips: ['B101']  # Pular avisos sobre assert statements em testes
+
+# Configurações de relatório
+output_format: json
+output_file: bandit-report.json
+
+# Configurações de severidade
+# MEDIUM e HIGH devem bloquear o pipeline (conforme especificação)
+severity: medium
+confidence: medium
