@@ -28,7 +28,8 @@ jobs:
     - name: 🔍 Análise SAST com Bandit
       run: |
         # Executar Bandit sem arquivo de configuração para evitar problemas de parsing
-        python -m bandit -r server/ -f json -o bandit-report.json
+        # || true garante que o step sempre suceda, permitindo que check_vulnerabilities.py implemente o fail-fast
+        python -m bandit -r server/ -f json -o bandit-report.json || true
         
     - name: 🚨 Verificar Vulnerabilidades Críticas
       run: |
