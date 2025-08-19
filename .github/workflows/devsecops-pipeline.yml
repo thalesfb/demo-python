@@ -41,7 +41,7 @@ jobs:
         
     - name: 🛡️ Análise Safety
       run: |
-        safety check --json --output safety-report.json
+        safety check --output json > safety-report.json
         
     - name: 🐳 Análise de Container com Trivy
       run: |
