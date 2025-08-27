@@ -1,0 +1,39 @@
+# Configuração do Bandit para análise de segurança
+# Arquivo: .bandit
+
+# Excluir diretórios e arquivos específicos
+exclude_dirs:
+  - tests
+  - test
+  - .venv
+  - __pycache__
+  - .git
+  - node_modules
+  - dist
+  - build
+
+# Excluir arquivos específicos
+exclude:
+  - "*/test_*.py"
+  - "*/tests/*.py"
+  - "*/example*.py"
+  - "*/demo*.py"
+  - "*/migrations/*.py"
+  - "*/__pycache__/*"
+
+# Configurações de teste
+skips:
+  - B101  # assert_used - permitir asserts em código de produção
+  - B601  # paramiko_calls - se não usar paramiko
+  - B602  # subprocess_popen_with_shell_equals_true - se necessário
+  - B603  # subprocess_without_shell_equals_true - se necessário
+  - B604  # any_other_function_with_shell_equals_true - se necessário
+
+# Configurações de saída
+output_format: json
+output_file: security-reports/bandit-report.json
+
+# Configurações de teste
+aggregate: true
+confidence: medium
+severity: medium
