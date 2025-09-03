@@ -98,7 +98,7 @@ jobs:
         python check_vulnerabilities.py
         
     - name: 📊 Upload de Relatórios de Segurança
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: security-reports
         path: security-reports/
