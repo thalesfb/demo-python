@@ -9,7 +9,6 @@ import os
 import sys
 from pathlib import Path
 
-
 def load_report(report_file):
     """
     Carrega relatório de segurança do arquivo especificado.
@@ -34,7 +33,6 @@ def load_report(report_file):
     except (json.JSONDecodeError, IOError) as e:
         print(f"❌ Erro ao ler relatório {report_file}: {e}")
         return {}
-
 
 def analyze_bandit_report(report_data):
     """
@@ -66,7 +64,6 @@ def analyze_bandit_report(report_data):
 
     return high_count, medium_count, low_count
 
-
 def analyze_pip_audit_report(report_data):
     """
     Analisa relatório do pip-audit e conta vulnerabilidades.
@@ -84,7 +81,6 @@ def analyze_pip_audit_report(report_data):
     if 'vulnerabilities' in report_data:
         return len(report_data['vulnerabilities'])
     return 0
-
 
 def check_project_files():
     """
@@ -108,13 +104,13 @@ def check_project_files():
                 file_path = os.path.join(root, file)
                 python_files.append(file_path)
 
-                # Contar linhas do arquivo
                 try:
                     with open(file_path, 'r', encoding='utf-8') as f:
                         lines = len(f.readlines())
                         total_lines += lines
-                except:
-                    pass
+                except (FileNotFoundError, PermissionError, UnicodeDecodeError) as e:
+                    print(f"⚠️  Aviso: Não foi possível ler {file_path}: {e}")
+                    # Continuar execução sem falhar
 
     return {
         'total_files': len(python_files),
@@ -202,7 +198,6 @@ def main():
         print(f"   • Vulnerabilidades médias: {medium_count} ✅")
         print(f"   • Vulnerabilidades em dependências: {pip_vulns} ✅")
         print("\n🚀 Código seguro para deploy!")
-
 
 if __name__ == "__main__":
     main()
