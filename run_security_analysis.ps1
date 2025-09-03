@@ -10,12 +10,10 @@ if (-not (Test-Path "requirements.txt")) {
     exit 1
 }
 
-# Criar diretório para relatórios
-New-Item -ItemType Directory -Force -Path "security-reports" | Out-Null
-
-Write-Host "📦 Instalando dependências..." -ForegroundColor Yellow
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+if (-not (Test-Path "security-reports")) {
+    Write-Host "📁 Criando diretório para relatórios..." -ForegroundColor Yellow
+    New-Item -ItemType Directory -Force -Path "security-reports" | Out-Null
+}
 
 Write-Host "📁 Verificando arquivos Python do projeto..." -ForegroundColor Yellow
 Write-Host "🔍 Arquivos Python encontrados:" -ForegroundColor Cyan

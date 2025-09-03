@@ -17,10 +17,6 @@ if [ ! -d "security-reports" ]; then
     mkdir -p security-reports
 fi
 
-echo "📦 Instalando dependências..."
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-
 echo "📁 Verificando arquivos Python do projeto..."
 echo "🔍 Arquivos Python encontrados:"
 find . -name "*.py" -not -path "./.venv/*" -not -path "./__pycache__/*" -not -path "./.git/*"
